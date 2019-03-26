@@ -1,20 +1,74 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
+<div class="container">
+  <div style="text-align:center">
+    <h1 class="m-4">
+      Welcome to {{ title }}!
+    </h1>
+  </div>
+  <h4>This project is an example of how to use switchMap when updating a form using reactive forms.</h4>
+  <p>Notice how the results without switchMap show results using stale data. The results with switchMap sometimes appear to
+    take longer, but the data is always accurate. Increase the delay time and type slowly to see a more pronouced example.</p>
+  <div class="row">
+    <div class="col col-md-8">
+      <form [formGroup]="customerForm">
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="name">Name</label>
+            <input id="name" type="text" class="form-control" formControlName="name">
+          </div>
+          <div class="form-group col-md-6">
+            <label for="address">Address</label>
+            <input id="address" type="text" class="form-control" formControlName="address">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="city">City</label>
+            <input id="city" type="text" class="form-control" formControlName="city">
+          </div>
+          <div class="form-group col-md-2">
+            <label for="state">State</label>
+            <input id="state" type="text" class="form-control" formControlName="state">
+          </div>
+          <div class="form-group col-md-4">
+            <label for="zip">Zip</label>
+            <input id="zip" type="text" class="form-control" formControlName="zip">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-4">
+            <label for="delayTime">Delay Time (in milliseconds)</label>
+            <input id="delayTime" type="text" class="form-control" formControlName="delayTime">
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="col col-md-4">
+      <p class="font-weight-bold"> customerForm Model: </p>
+      <pre>{{customerForm.value |json}}</pre>
+    </div>
+  </div>
+  <hr class="divider" />
+  <div class=row>
+    <div class="col">
+      <div class="card">
+        <div class="card-header font-weight-bold">Results with switchMap</div>
+        <div class="card-body">
+          <p [class.text-success]="customersWithSwitchmap?.length === customersWithoutSwitchmap?.length">Count:
+            {{customersWithSwitchmap?.length}}</p>
+          <pre>{{customersWithSwitchmap | json}}</pre>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card">
+        <div class="card-header font-weight-bold">Results without switchMap</div>
+        <div class="card-body">
+          <p [class.text-danger]="customersWithSwitchmap?.length !== customersWithoutSwitchmap?.length"
+            [class.text-success]="customersWithSwitchmap?.length === customersWithoutSwitchmap?.length">
+            Count: {{customersWithoutSwitchmap?.length}}</p>
+          <pre>{{customersWithoutSwitchmap | json}}</pre>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/cli">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
-
