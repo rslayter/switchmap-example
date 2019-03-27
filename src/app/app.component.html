@@ -4,9 +4,10 @@
       Welcome to {{ title }}!
     </h1>
   </div>
-  <h4>This project is an example of how to use switchMap when updating a form using reactive forms.</h4>
-  <p>Notice how the results without switchMap show results using stale data. The results with switchMap sometimes appear to
-    take longer, but the data is always accurate. Increase the delay time and type slowly to see a more pronouced example.</p>
+  <h4>This project is an example of how to use switchMap with reactive forms.</h4>
+  <p>Notice how the results without switchMap show results using stale data and have multiple active requests at a time.
+    The results with switchMap sometimes appear to take longer, but the data is always accurate.</p>
+  <p>Increase the delay time and type slowly to see a more pronounced example.</p>
   <div class="row">
     <div class="col col-md-8">
       <form [formGroup]="customerForm">
@@ -53,8 +54,10 @@
       <div class="card">
         <div class="card-header font-weight-bold">Results with switchMap</div>
         <div class="card-body">
-          <p [class.text-success]="customersWithSwitchmap?.length === customersWithoutSwitchmap?.length">Count:
-            {{customersWithSwitchmap?.length}}</p>
+          <pre
+            [class.text-danger]="requestsWithSwitchmap?.length > 1">Active Requests: {{requestsWithSwitchmap | json}}</pre>
+          <p [class.text-success]="customersWithSwitchmap?.length === customersWithoutSwitchmap?.length">
+            Results Count: {{customersWithSwitchmap?.length}}</p>
           <pre>{{customersWithSwitchmap | json}}</pre>
         </div>
       </div>
@@ -63,9 +66,11 @@
       <div class="card">
         <div class="card-header font-weight-bold">Results without switchMap</div>
         <div class="card-body">
+          <pre
+            [class.text-danger]="requestsWithoutSwitchmap?.length > 1">Active Requests: {{requestsWithoutSwitchmap | json}}</pre>
           <p [class.text-danger]="customersWithSwitchmap?.length !== customersWithoutSwitchmap?.length"
             [class.text-success]="customersWithSwitchmap?.length === customersWithoutSwitchmap?.length">
-            Count: {{customersWithoutSwitchmap?.length}}</p>
+            Results Count: {{customersWithoutSwitchmap?.length}}</p>
           <pre>{{customersWithoutSwitchmap | json}}</pre>
         </div>
       </div>

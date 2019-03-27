@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Subject } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, map } from 'rxjs/operators';
 import { CustomersService } from './services/customers/customers.service';
 
 @Component({
@@ -15,7 +15,9 @@ export class AppComponent implements OnInit {
   customerForm;
   customer;
   customersWithSwitchmap = [];
+  requestsWithSwitchmap = [];
   customersWithoutSwitchmap = [];
+  requestsWithoutSwitchmap = [];
   private customerLookup$: Subject<void> = new Subject();
 
   constructor(
@@ -33,7 +35,6 @@ export class AppComponent implements OnInit {
       delayTime: 2000
     });
 
-
     this.customerForm.valueChanges.subscribe(() => {
       this.customerLookup$.next();
       this.getCustomers();
@@ -41,26 +42,28 @@ export class AppComponent implements OnInit {
 
     this.customerLookup$
       .pipe(
+        map(() => this.requestsWithSwitchmap = []),
         switchMap(() => {
-          return this.customersService.get(this.customerForm.value);
+          this.requestsWithSwitchmap.push(this.customerForm.value);
+          const searchParams = this.customerForm.value;
+          return this.customersService.get(searchParams);
         })
       )
-      .subscribe(
-        (results: any) => {
-          this.customersWithSwitchmap = results;
-        },
-        error => {
-          console.log(error);
-        }
-      );
+      .subscribe(results => {
+        this.customersWithSwitchmap = results;
+        this.requestsWithSwitchmap.shift();
+      });
 
     this.customerLookup$.next();
     this.getCustomers();
   }
 
   getCustomers() {
-    this.customersService.get(this.customerForm.value).subscribe(results => {
+    this.requestsWithoutSwitchmap.push(this.customerForm.value);
+    const searchParams = this.customerForm.value;
+    this.customersService.get(searchParams).subscribe(results => {
       this.customersWithoutSwitchmap = results;
+      this.requestsWithoutSwitchmap.shift();
     });
   }
 
